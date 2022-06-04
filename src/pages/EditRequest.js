@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import CrudReplicator from "../connectors/CrudReplicator"
-import { useLocation } from 'react-router-dom'
+import { useLocation , useNavigate} from 'react-router-dom'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 const EditRequest = (props) => {
 
     const location = useLocation()
+    const navigate = useNavigate()
 
     const [request, setRequest] = useState({
         requestCode: '',
@@ -234,7 +235,7 @@ const EditRequest = (props) => {
                     : null}
                 <div className="button-group">
                     <button type="submit">Save</button>
-                    <button type='button' >Cancel</button>
+                    <button type='button' onClick={() => navigate(-1)} >Cancel</button>
                 </div>
             </form>
         </>
