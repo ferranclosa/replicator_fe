@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 
 
-const ViewRequest = (props) => {
+const EditRequest = (props) => {
 
     const location = useLocation()
 
@@ -107,7 +107,7 @@ const ViewRequest = (props) => {
                     id="requestCode"
                     name="requestCode"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.requestCode}
@@ -121,7 +121,7 @@ const ViewRequest = (props) => {
                     id="requestDescription"
                     name="requestDescription"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.requestDescription}
@@ -134,7 +134,7 @@ const ViewRequest = (props) => {
                     id="sourceSystem"
                     name="sourceSystem"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceSystem.toUpperCase()}
@@ -147,7 +147,7 @@ const ViewRequest = (props) => {
                     id="sourceSchema"
                     name="sourceSchema"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceSchema.toUpperCase()}
@@ -160,7 +160,7 @@ const ViewRequest = (props) => {
                     id="sourceTempSchema"
                     name="sourceTempSchema"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceTempSchema.toUpperCase()}
@@ -170,7 +170,7 @@ const ViewRequest = (props) => {
                     id="sourceURL"
                     name="sourceTempSchema"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceURL}
@@ -180,7 +180,7 @@ const ViewRequest = (props) => {
                     id="targetSystem"
                     name="targetSystem"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetSystem.toUpperCase()}
@@ -190,7 +190,7 @@ const ViewRequest = (props) => {
                     id="targetURL"
                     name="targetURL"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetURL}
@@ -200,7 +200,7 @@ const ViewRequest = (props) => {
                     id="targetDriver"
                     name="targetDriver"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetDriver}
@@ -210,7 +210,7 @@ const ViewRequest = (props) => {
                     id="targetSchema"
                     name="targetSchema"
                     type="text"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetSchema.toUpperCase()}
@@ -220,7 +220,7 @@ const ViewRequest = (props) => {
                     id="targetDropBefore"
                     name="targetDropBefore"
                     type="checkbox"
-                    readOnly
+                    
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetDropBefore}
@@ -233,8 +233,8 @@ const ViewRequest = (props) => {
 
                     : null}
                 <div className="button-group">
-                    <button type="submit">OK</button>
-                    {/* <button type='button' onClick={formik.resetForm}>Clear</button> */}
+                    <button type="submit">Save</button>
+                    <button type='button' >Cancel</button>
                 </div>
             </form>
         </>
@@ -244,4 +244,4 @@ const ViewRequest = (props) => {
     )
 }
 
-export default ViewRequest
+export default EditRequest

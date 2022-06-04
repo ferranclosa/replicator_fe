@@ -21,7 +21,7 @@ function ListRequests() {
             { Header: 'Code', accessor: 'requestCode' },
             { Header: 'Description', accessor: 'requestDescription' },
             { Header: 'Source System', accessor: 'sourceSystem' },
-            { Header: 'Source URL', accessor: 'sourceURL' },
+            // { Header: 'Source URL', accessor: 'sourceURL' },
             { Header: 'Source Schema', accessor: 'sourceSchema' },
 
             { Header: 'Target System', accessor: 'targetSystem' },
@@ -86,7 +86,8 @@ function ListRequests() {
 
     }
 
-    const editHandler = () => {
+    const editHandler = (row) => {
+        navigate('/editRequest', { state: {requestCode: row.original.requestCode}})
 
     }
 
