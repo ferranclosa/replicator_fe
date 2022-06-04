@@ -91,7 +91,7 @@ function ListRequests() {
     }
 
     const viewHandler = (row) => {
-        navigate('/viewRequest', { state: { ...row.original } })
+        navigate('/viewRequest', { state: { requestCode: row.original.requestCode } })
     }
 
     return (

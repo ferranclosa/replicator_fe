@@ -10,7 +10,7 @@ const AppRouter = () => {
         <div>
           <Routes>
             <Route exact path={'/'} element = {<ListRequests />}  />
-            <Route path={'/viewRequest'} element={ <ViewRequest requestCode={requestCode}/>}  />
+            <Route path={'/viewRequest'} element={ <ViewRequest />}  />
             
             {/* <Route render={props => <NotImplemented {...props} />} /> */}
           </Routes>

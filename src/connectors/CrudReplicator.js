@@ -14,7 +14,7 @@ const getRequests = () => {
 }
 
 const viewRequest = (data) => {
-    return axios.post(URL + '/viewRequest', data , {headers})
+    return axios.post(URL + '/readRequest', data , {headers})
 }
 
 
@@ -22,5 +22,5 @@ export default
 {
     getRequests, 
     viewRequest, 
-    
+
 }

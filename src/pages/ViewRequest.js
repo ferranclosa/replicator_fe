@@ -1,9 +1,13 @@
 import React , { useEffect, useState } from "react"
 import CrudReplicator from "../connectors/CrudReplicator"
+import { useLocation } from 'react-router-dom'
 
 
 const ViewRequest = (props)=> 
 {
+
+    const location = useLocation()
+
     const [request , setRequest ] = useState({
         requestCode: '',
         requestDescription: '',
@@ -26,7 +30,7 @@ const ViewRequest = (props)=>
     })
 
     useEffect(() => {
-        const data = {requestCode: props.requestCode}
+        const data = {requestCode: location.state.requestCode}
      
         CrudReplicator.viewRequest(data )
         .then(response => 
@@ -35,7 +39,7 @@ const ViewRequest = (props)=>
              : setRequest({})
              )
     
-    }, [props.requestCode])
+    }, [])
 
 
     return (
