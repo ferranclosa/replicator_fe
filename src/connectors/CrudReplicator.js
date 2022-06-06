@@ -17,10 +17,14 @@ const viewRequest = (data) => {
     return axios.post(URL + '/readRequest', data , {headers})
 }
 
+const deleteRequest = (data) => {
+    return axios.post(URL + '/deleteRequest', data , {headers})
+}
 
 export default
 {
     getRequests, 
-    viewRequest, 
+    viewRequest,
+    deleteRequest, 
 
 }

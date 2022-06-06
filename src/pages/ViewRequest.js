@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react"
 import CrudReplicator from "../connectors/CrudReplicator"
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-
-
+import { toast } from "react-toastify";
+import Tools from '../helpers/Tools'
+import { toBeEmpty } from "@testing-library/jest-dom/dist/matchers";
 
 const ViewRequest = (props) => {
 
     const location = useLocation()
     const navigate = useNavigate()
+
+
 
     const [request, setRequest] = useState({
         requestCode: '',
@@ -29,13 +31,9 @@ const ViewRequest = (props) => {
         targetDropBefore: false,
         tragetClearBefore: false,
         batchSize: 0
-
     })
 
     const [result, setResult] = useState()
-  
-
-
     const formik = useFormik({
         initialValues: {
             requestCode: '',
@@ -59,24 +57,7 @@ const ViewRequest = (props) => {
         },
         enableReinitialize: true,
         initialTouched: false,
-        validationSchema: Yup.object({
-            requestCode: Yup.string()
-                .max(5, 'Must be 5 characters or less')
-                .required('Request Code is a required value'),
-            requestDescription: Yup.string()
-                .max(100, 'Must be 100 characters or less')
-                .required('Description is a requierd value'),
-            sourceSystem: Yup.string()
-                .required('Source System has to be specified'),
-            sourceURL: Yup.string()
-                .required('The Source URL address is required'),
-            sourceSchema: Yup.string()
-                .required(' Source Schema is required'),
-            sourceTempSchema: Yup.string()
-                .required('Source Temp Schema (usually QTEMP) is required'),
 
-
-        }),
         onSubmit: values => {
             setResult(JSON.stringify(values, null, 2));
         },
@@ -86,14 +67,30 @@ const ViewRequest = (props) => {
     });
 
 
+    const deleteRequest = () => {
+        const data = { requestCode: location.state.requestCode }
+        CrudReplicator.deleteRequest(data)
+            .then(response =>
+                response.data.responseCode === '00'
+                    ? (toast.info(Tools.buildToast(response.data)),
+                        navigate(-1)
+                    )
+                    :
+                    toast.error(Tools.buildToast(response.data))
+            )
+            .catch(e => {
+                toast.error(e.getMessage())
+            }) 
+    }
+
+
     useEffect(() => {
         const data = { requestCode: location.state.requestCode }
-
         CrudReplicator.viewRequest(data)
             .then(response =>
                 response.data.responseCode === '00'
-                    ? (setRequest({ ...response.data }), 
-                    formik.setValues({...response.data}))
+                    ? (setRequest({ ...response.data }),
+                        formik.setValues({ ...response.data }))
                     : setRequest({})
             )
 
@@ -113,9 +110,6 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.requestCode}
                 />
-                {formik.touched.requestCode && formik.errors.requestCode ? (
-                    <div className='field-error'>{formik.errors.requestCode}</div>
-                ) : null}
 
                 <label htmlFor="requestDescription">Description</label>
                 <input
@@ -127,10 +121,8 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.requestDescription}
                 />
-                {formik.touched.requestDescription && formik.errors.requestDescription ? (
-                    <div className='field-error'>{formik.errors.requestDescription}</div>
-                ) : null}
-              <label htmlFor="sourceSystem">Source System</label>
+
+                <label htmlFor="sourceSystem">Source System</label>
                 <input
                     id="sourceSystem"
                     name="sourceSystem"
@@ -140,10 +132,8 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceSystem.toUpperCase()}
                 />
-                {formik.touched.sourceSystem && formik.errors.sourceSystem ? (
-                    <div className='field-error'>{formik.errors.sourceSystem}</div>
-                ) : null}
-            <label htmlFor="sourceSchema">Source Schema</label>
+
+                <label htmlFor="sourceSchema">Source Schema</label>
                 <input
                     id="sourceSchema"
                     name="sourceSchema"
@@ -153,9 +143,6 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceSchema.toUpperCase()}
                 />
-                {/* {formik.touched.sourceSystem && formik.errors.sourceSystem ? (
-                    <div className='field-error'>{formik.errors.sourceSystem}</div>
-                ) : null} */}
                 <label htmlFor="sourceTempSchema">Source Temporary Schema</label>
                 <input
                     id="sourceTempSchema"
@@ -176,7 +163,7 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceURL}
                 />
-              <label htmlFor="targetSystem">Target System</label>
+                <label htmlFor="targetSystem">Target System</label>
                 <input
                     id="targetSystem"
                     name="targetSystem"
@@ -186,7 +173,7 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.targetSystem.toUpperCase()}
                 />
-              <label htmlFor="targetURL">Target URL</label>
+                <label htmlFor="targetURL">Target URL</label>
                 <input
                     id="targetURL"
                     name="targetURL"
@@ -196,7 +183,7 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.targetURL}
                 />
-              <label htmlFor="targetDriver">Target URL</label>
+                <label htmlFor="targetDriver">Target URL</label>
                 <input
                     id="targetDriver"
                     name="targetDriver"
@@ -206,7 +193,7 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.targetDriver}
                 />
-              <label htmlFor="targetSchema">Target Schema</label>
+                <label htmlFor="targetSchema">Target Schema</label>
                 <input
                     id="targetSchema"
                     name="targetSchema"
@@ -216,7 +203,7 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.targetSchema.toUpperCase()}
                 />
-              <label htmlFor="targetDropBefore">Drop Table Before</label>
+                <label htmlFor="targetDropBefore">Drop Table Before</label>
                 <input
                     id="targetDropBefore"
                     name="targetDropBefore"
@@ -226,17 +213,21 @@ const ViewRequest = (props) => {
                     onBlur={formik.handleBlur}
                     value={formik.values.targetDropBefore}
                 />
-              
-                {result ?
-                    <code>
-                        {result}
-                    </code>
 
-                    : null}
-                <div className="button-group">
-                    <button type="submit" onClick={() => navigate(-1)}>OK</button>
-                    {/* <button type='button' onClick={formik.resetForm}>Clear</button> */}
-                </div>
+                {location.state.deleteFlag ?
+                    <div className="button-group">
+                        <button
+                            type='submit'
+                            onClick={deleteRequest}>
+                            Delete
+                        </button>
+                        <button type='button' onClick={() => navigate(-1)} >Cancel</button>
+                    </div>
+                    :
+                    <div className="button-group">
+                        <button type='button' onClick={() => navigate(-1)} >OK</button>
+                    </div>
+                }
             </form>
         </>
 

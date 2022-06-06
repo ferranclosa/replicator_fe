@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import CrudReplicator from "../connectors/CrudReplicator"
-import { useLocation , useNavigate} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -33,7 +33,7 @@ const EditRequest = (props) => {
     })
 
     const [result, setResult] = useState()
-  
+
 
 
     const formik = useFormik({
@@ -74,7 +74,18 @@ const EditRequest = (props) => {
                 .required(' Source Schema is required'),
             sourceTempSchema: Yup.string()
                 .required('Source Temp Schema (usually QTEMP) is required'),
-
+            targetSystem: Yup.string()
+                .required('Target System is required'),
+            targetSchema: Yup.string()
+                .required('Target Schema is required'),
+                targetURL: Yup.string()
+                .required('Target URL is required'),
+                batchSize: Yup.number()
+                .min(0, 'Negative batch size does not make sense'), 
+                targetDropBefore: Yup.bool(),
+                targetBefore: Yup.bool(),
+                 
+                
 
         }),
         onSubmit: values => {
@@ -92,8 +103,8 @@ const EditRequest = (props) => {
         CrudReplicator.viewRequest(data)
             .then(response =>
                 response.data.responseCode === '00'
-                    ? (setRequest({ ...response.data }), 
-                    formik.setValues({...response.data}))
+                    ? (setRequest({ ...response.data }),
+                        formik.setValues({ ...response.data }))
                     : setRequest({})
             )
 
@@ -108,7 +119,7 @@ const EditRequest = (props) => {
                     id="requestCode"
                     name="requestCode"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.requestCode}
@@ -122,7 +133,7 @@ const EditRequest = (props) => {
                     id="requestDescription"
                     name="requestDescription"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.requestDescription}
@@ -130,12 +141,12 @@ const EditRequest = (props) => {
                 {formik.touched.requestDescription && formik.errors.requestDescription ? (
                     <div className='field-error'>{formik.errors.requestDescription}</div>
                 ) : null}
-              <label htmlFor="sourceSystem">Source System</label>
+                <label htmlFor="sourceSystem">Source System</label>
                 <input
                     id="sourceSystem"
                     name="sourceSystem"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceSystem.toUpperCase()}
@@ -143,25 +154,22 @@ const EditRequest = (props) => {
                 {formik.touched.sourceSystem && formik.errors.sourceSystem ? (
                     <div className='field-error'>{formik.errors.sourceSystem}</div>
                 ) : null}
-            <label htmlFor="sourceSchema">Source Schema</label>
+                <label htmlFor="sourceSchema">Source Schema</label>
                 <input
                     id="sourceSchema"
                     name="sourceSchema"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceSchema.toUpperCase()}
                 />
-                {/* {formik.touched.sourceSystem && formik.errors.sourceSystem ? (
-                    <div className='field-error'>{formik.errors.sourceSystem}</div>
-                ) : null} */}
                 <label htmlFor="sourceTempSchema">Source Temporary Schema</label>
                 <input
                     id="sourceTempSchema"
                     name="sourceTempSchema"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceTempSchema.toUpperCase()}
@@ -171,62 +179,62 @@ const EditRequest = (props) => {
                     id="sourceURL"
                     name="sourceTempSchema"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.sourceURL}
                 />
-              <label htmlFor="targetSystem">Target System</label>
+                <label htmlFor="targetSystem">Target System</label>
                 <input
                     id="targetSystem"
                     name="targetSystem"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetSystem.toUpperCase()}
                 />
-              <label htmlFor="targetURL">Target URL</label>
+                <label htmlFor="targetURL">Target URL</label>
                 <input
                     id="targetURL"
                     name="targetURL"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetURL}
                 />
-              <label htmlFor="targetDriver">Target URL</label>
+                <label htmlFor="targetDriver">Target URL</label>
                 <input
                     id="targetDriver"
                     name="targetDriver"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetDriver}
                 />
-              <label htmlFor="targetSchema">Target Schema</label>
+                <label htmlFor="targetSchema">Target Schema</label>
                 <input
                     id="targetSchema"
                     name="targetSchema"
                     type="text"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetSchema.toUpperCase()}
                 />
-              <label htmlFor="targetDropBefore">Drop Table Before</label>
+                <label htmlFor="targetDropBefore">Drop Table Before</label>
                 <input
                     id="targetDropBefore"
                     name="targetDropBefore"
                     type="checkbox"
-                    
+
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.targetDropBefore}
                 />
-              
+
                 {result ?
                     <code>
                         {result}

@@ -2,6 +2,7 @@
 import {useState, useEffect, useMemo}  from 'react'
 import CrudReplicator from '../connectors/CrudReplicator'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import EnhancedTable from '../components/EnhancedTable'
 import { IconButton } from '@mui/material'
 import { Edit } from '@mui/icons-material'
@@ -21,7 +22,6 @@ function ListRequests() {
             { Header: 'Code', accessor: 'requestCode' },
             { Header: 'Description', accessor: 'requestDescription' },
             { Header: 'Source System', accessor: 'sourceSystem' },
-            // { Header: 'Source URL', accessor: 'sourceURL' },
             { Header: 'Source Schema', accessor: 'sourceSchema' },
 
             { Header: 'Target System', accessor: 'targetSystem' },
@@ -72,18 +72,19 @@ function ListRequests() {
             .then(response =>
                 response.data.responseCode === '00'
                     ? setRequests(response.data.requestList)
-                    : setRequests([])
+                    : ( setRequests([]), 
+                    toast.info("Empty data set"))
             )
             .catch(e => {
-                console.log(e);
+                toast.error(e.getMessage())
             })
     
     }, []
     )
 
 
-    const deleteHandler = () => {
-
+    const deleteHandler = (row) => {
+            navigate('/viewRequest', { state: { requestCode: row.original.requestCode, deleteFlag: true } })
     }
 
     const editHandler = (row) => {
@@ -92,7 +93,7 @@ function ListRequests() {
     }
 
     const viewHandler = (row) => {
-        navigate('/viewRequest', { state: { requestCode: row.original.requestCode } })
+        navigate('/viewRequest', { state: { requestCode: row.original.requestCode, deleteFlag: false } })
     }
 
     return (
