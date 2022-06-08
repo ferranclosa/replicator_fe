@@ -133,7 +133,7 @@ input[type=date]{
 }
 
 input {
-  width: calc(100% - 10px);
+  /* width: calc(100% - 10px); */
   padding: 5px;
 }
 
@@ -221,4 +221,9 @@ button:hover {
   display: flex;
   justify-content: center;
   color: red;
+}
+
+.container-form {
+  display: flex; 
+  align-items: stretch;
 }

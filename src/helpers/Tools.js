@@ -2,7 +2,7 @@
 const buildToast = (idto) => {
     const dto = {...idto}
     const jsxResponse = 
-        <div> {dto.responseCode} <br/>
+        <div> {dto.responseCode} {dto.responseMessage} <br/>
             {dto.messageList.map(element => 
               (<div> {element} <br/> </div>)  
             )}

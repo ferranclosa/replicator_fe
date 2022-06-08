@@ -4,7 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik';
 import { toast } from "react-toastify";
 import Tools from '../helpers/Tools'
-import { toBeEmpty } from "@testing-library/jest-dom/dist/matchers";
+import TextField from "@mui/material/TextField";
+import Box from '@mui/material/Box'
+import FormGroup from "@mui/material/FormGroup";
+import Switch from '@mui/material/Switch'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Divider from '@mui/material/Divider';
 
 const ViewRequest = (props) => {
 
@@ -29,7 +34,7 @@ const ViewRequest = (props) => {
         targetDriver: '',
         targetSchema: '',
         targetDropBefore: false,
-        tragetClearBefore: false,
+        targetClearBefore: false,
         batchSize: 0
     })
 
@@ -51,7 +56,7 @@ const ViewRequest = (props) => {
             targetDriver: '',
             targetSchema: '',
             targetDropBefore: false,
-            tragetClearBefore: false,
+            targetClearBefore: false,
             batchSize: 0
 
         },
@@ -80,7 +85,7 @@ const ViewRequest = (props) => {
             )
             .catch(e => {
                 toast.error(e.getMessage())
-            }) 
+            })
     }
 
 
@@ -98,122 +103,157 @@ const ViewRequest = (props) => {
 
 
     return (
+
         <>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="requestCode">Request Code</label>
-                <input
-                    id="requestCode"
-                    name="requestCode"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.requestCode}
-                />
 
-                <label htmlFor="requestDescription">Description</label>
-                <input
-                    id="requestDescription"
-                    name="requestDescription"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.requestDescription}
-                />
+            <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { m: 1, p: 1, minWidth: '30%', fontSize: '8px' },
+                }}
+                noValidate
+                autoComplete="off"
+                onSubmit={formik.handleSubmit}
+            >
 
-                <label htmlFor="sourceSystem">Source System</label>
-                <input
-                    id="sourceSystem"
-                    name="sourceSystem"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.sourceSystem.toUpperCase()}
-                />
+                <div>
+                    <TextField
+                        id="requestCode"
+                        name="requestCode"
+                        sx={{ '& .MuiTextField-root': { width: '30%' }, }}
+                        readOnly
+                        label="Request Code"
+                        value={formik.values.requestCode}
+                        onChange={formik.handleChange}
+                        error={formik.touched.requestCode && Boolean(formik.errors.requestCode)}
+                        helperText={formik.touched.requestCode && formik.errors.requestCode}
+                    />
+                    <TextField
+                        id="requestDescription"
+                        name="requestDescription"
+                        readOnly
+                        label="Description"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.requestDescription}
+                        error={formik.touched.requestDescription && Boolean(formik.errors.requestDescription)}
+                        helperText={formik.touched.requestDescription && formik.errors.requestDescription}
+                    />
+                </div>
+                <Divider sx={{ color: 'black', borderBottom: '2px solid' }} textAlign='right'>Source Section</Divider>
+                <div>
+                    <TextField
+                        id="sourceSystem"
+                        name="sourceSystem"
+                        label="Source System"
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.sourceSystem.toUpperCase()}
+                    />
+                    <TextField
+                        id="sourceSchema"
+                        name="sourceSchema"
+                        label="Source Schema"
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.sourceSchema.toUpperCase()}
+                    />
+                    <TextField
+                        id="sourceTempSchema"
+                        name="sourceTempSchema"
+                        label="Source Temporary Schema"
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.sourceTempSchema.toUpperCase()}
+                    />
+                </div>
+                <div>
 
-                <label htmlFor="sourceSchema">Source Schema</label>
-                <input
-                    id="sourceSchema"
-                    name="sourceSchema"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.sourceSchema.toUpperCase()}
-                />
-                <label htmlFor="sourceTempSchema">Source Temporary Schema</label>
-                <input
-                    id="sourceTempSchema"
-                    name="sourceTempSchema"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.sourceTempSchema.toUpperCase()}
-                />
-                <label htmlFor="sourceURL">Source URL</label>
-                <input
-                    id="sourceURL"
-                    name="sourceTempSchema"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.sourceURL}
-                />
-                <label htmlFor="targetSystem">Target System</label>
-                <input
-                    id="targetSystem"
-                    name="targetSystem"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.targetSystem.toUpperCase()}
-                />
-                <label htmlFor="targetURL">Target URL</label>
-                <input
-                    id="targetURL"
-                    name="targetURL"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.targetURL}
-                />
-                <label htmlFor="targetDriver">Target URL</label>
-                <input
-                    id="targetDriver"
-                    name="targetDriver"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.targetDriver}
-                />
-                <label htmlFor="targetSchema">Target Schema</label>
-                <input
-                    id="targetSchema"
-                    name="targetSchema"
-                    type="text"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.targetSchema.toUpperCase()}
-                />
-                <label htmlFor="targetDropBefore">Drop Table Before</label>
-                <input
-                    id="targetDropBefore"
-                    name="targetDropBefore"
-                    type="checkbox"
-                    readOnly
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.targetDropBefore}
-                />
+                    <TextField
+                        id="sourceURL"
+                        name="sourceTempSchema"
+                        label="Source URL"
+                        fullWidth
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.sourceURL}
+                    />
+                </div>
+                <Divider sx={{ color: 'black', pt: '5px' }} textAlign='right' >Target Section</Divider>
 
+                <div>
+
+                    <TextField
+                        id="targetSystem"
+                        name="targetSystem"
+                        label="Target System"
+                        
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.targetSystem.toUpperCase()}
+                    />
+                    <TextField
+                        id="targetSchema"
+                        name="targetSchema"
+                        label="Target Schema"
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.targetSchema.toUpperCase()}
+                    />
+                    <TextField
+                        id="targetDriver"
+                        name="targetDriver"
+                        label="Target Driver"
+                        readOnly
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.targetDriver}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        id="targetURL"
+                        name="targetURL"
+                        label="Target URL"
+                        readOnly
+                        fullWidth
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.targetURL}
+                    />
+                </div>
+                <div>
+                    <FormGroup>
+                        <FormControlLabel control={
+                            <Switch
+                                checked={formik.values.targetDropBefore ? true : false}
+                                value={formik.values.targetDropBefore}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur} />} label="Drop Table Before" />
+                        <FormControlLabel control={
+                            <Switch
+                                checked={formik.values.targetClearBefore ? true : false}
+                                value={formik.values.targetClearBefore}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur} />} label="Clear Contents Before" />
+
+                        <TextField
+                            id="batchSize"
+                            name="batchSize"
+                            label="BatchSize"
+                            readOnly
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.batchSize}
+                        />
+                    </FormGroup>
+                </div>
                 {location.state.deleteFlag ?
                     <div className="button-group">
                         <button
@@ -228,7 +268,8 @@ const ViewRequest = (props) => {
                         <button type='button' onClick={() => navigate(-1)} >OK</button>
                     </div>
                 }
-            </form>
+            </Box>
+
         </>
 
 
